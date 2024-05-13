@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://projectEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.testtask.web.screens.project">
+    <data>
+        <instance id="projectDc"
+                  class="com.company.testtask.entity.Project">
+            <view extends="_local">
+                <property name="employees" view="_minimal">
+                    <property name="name"/>
+                </property>
+            </view>
+            <loader/>
+            <collection id="employeesDc" property="employees"/>
+        </instance>
+        <collection id="allEmployees"
+                    class="com.company.testtask.entity.Employee"
+        >
+            <view extends="_local">
+                <property name="projects" view="_minimal">
+                    <property name="name"/>
+                </property>
+            </view>
+            <loader id="employeesDl">
+                <query>
+                    <![CDATA[select e from Employee e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="projectDc">
+            <column width="350px">
+                <textField id="nameField" property="name" caption="msg://projname"/>
+            </column>
+        </form>
+        <groupBox id="employeesBox" caption="msg://com.company.testtask.entity/Project.employees">
+            <table id="employeesTable" dataContainer="allEmployees" width="100%" height="200px">
+
+                <columns>
+                    <column id="name" caption="msg://projname"/>
+                    <column id="existInProject" type="boolean" caption="mainMsg://existInProject"/>
+                </columns>
+
+            </table>
+        </groupBox>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
